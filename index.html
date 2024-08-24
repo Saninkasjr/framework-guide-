@@ -1,0 +1,254 @@
+<html><head><base href="https://websim.joy.com"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Bridget Chama's Bubbly Birthday Wishes!</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Quicksand:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #FF69B4;
+    --secondary-color: #FFA500;
+    --tertiary-color: #00CED1;
+    --background-start: #FFF0F5;
+    --background-end: #E6E6FA;
+    --text-color: #333;
+    --accent-color: #FF1493;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--background-start) 0%, var(--background-end) 100%);
+    font-family: 'Quicksand', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-color);
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    padding: 20px;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+h1 {
+    font-family: 'Bubblegum Sans', cursive;
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards, floating 3s ease-in-out infinite;
+    text-shadow: 3px 3px 0px var(--accent-color), 6px 6px 0px rgba(0,0,0,0.1);
+}
+
+.full-name {
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    font-weight: 700;
+    color: var(--secondary-color);
+    opacity: 0;
+    animation: bounceIn 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 1.5s forwards;
+}
+
+.message {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeInUp 1s ease-out 2.5s forwards;
+}
+
+.wish-bubble {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 30px auto;
+    max-width: 80%;
+    opacity: 0;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 3.5s forwards;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.wish-bubble:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.wish-bubble::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-size: 60px;
+    color: var(--accent-color);
+    font-family: 'Georgia', serif;
+}
+
+#wish-text {
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+    color: var(--tertiary-color);
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.emoji-rain {
+    position: fixed;
+    top: -50px;
+    font-size: 24px;
+    opacity: 0;
+    animation: emojiRain 3s linear infinite;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    20% { transform: scale(1.1); }
+    40% { transform: scale(0.9); }
+    60% { transform: scale(1.03); opacity: 1; }
+    80% { transform: scale(0.97); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floating {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes emojiRain {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+@media (max-width: 480px) {
+    .wish-bubble {
+        max-width: 90%;
+    }
+}
+
+</style></head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    <div class="container" aria-label="Bubbly Birthday Wishes for Bridget Chama">
+        <h1>Happy Birthday!</h1>
+        <div class="full-name">Bridget Chama</div>
+        <p class="message">i see, we now getting older!</p>
+        <div class="wish-bubble">
+            <p id="wish-text">Don't forget old people were once Young 😂</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('confetti-canvas');
+            const myConfetti = confetti.create(canvas, {
+                resize: true,
+                useWorker: true
+            });
+
+            function shootConfetti() {
+                myConfetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#FF69B4', '#FFA500', '#00CED1', '#FF1493']
+                });
+            }
+
+            shootConfetti();
+            setInterval(shootConfetti, 3000);
+
+            const birthdayWishes = [
+                "Here's to thinking better thoughts, cause you really need some 🤣",
+                "Wishing you the wisdom to know which rules to follow, and which ones break them. 😉📚",
+                "Here's to growing older but never growing up! 🧒👵",
+                "Don't forget old people were once Young 😂",
+                "Here's to to having patience with stubborn people 😅😁",
+                "dont forget, God is always watching 👀"
+            ];
+
+            function changeWishText() {
+                const wishBubble = document.querySelector('.wish-bubble');
+                const wishTextElem = document.getElementById('wish-text');
+                
+                gsap.to(wishBubble, {
+                    scale: 0.8,
+                    opacity: 0,
+                    duration: 0.5,
+                    onComplete: () => {
+                        wishTextElem.textContent = birthdayWishes[Math.floor(Math.random() * birthdayWishes.length)];
+                        gsap.to(wishBubble, {
+                            scale: 1,
+                            opacity: 1,
+                            duration: 0.5,
+                            ease: "elastic.out(1, 0.5)"
+                        });
+                    }
+                });
+            }
+
+            setInterval(changeWishText, 8000);
+
+            function createEmojiRain() {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji-rain';
+                emoji.style.left = `${Math.random() * 100}vw`;
+                emoji.textContent = ['🎉', '🎈', '🎂', '🎁', '😄', '💖', '✨', '🍰', '🥳', '🦄'][Math.floor(Math.random() * 10)];
+                document.body.appendChild(emoji);
+
+                gsap.to(emoji, {
+                    y: '100vh',
+                    rotation: 360,
+                    duration: Math.random() * 3 + 2,
+                    ease: 'none',
+                    onComplete: () => {
+                        document.body.removeChild(emoji);
+                    }
+                });
+            }
+
+            setInterval(createEmojiRain, 300);
+
+            document.body.addEventListener('touchstart', shootConfetti);
+
+            gsap.from('.full-name', {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: "back.out(1.7)",
+                delay: 1.5
+            });
+
+            gsap.from('.message', {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                ease: "power2.out",
+                delay: 2.5
+            });
+        });
+    </script>
+</body>
+</html>
